@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="e-Portfolio of Zul Riza Bin Idris — Mobile Programming, UKM" />
+  <title>Zul Riza Bin Idris — Mobile Dev e-Portfolio</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    /* ── TOKENS ────────────────────────────────── */
+    :root {
+      --red:        #E5243B;
+      --red-dark:   #B91C2E;
+      --red-dim:    rgba(229,36,59,.12);
+      --red-glow:   rgba(229,36,59,.25);
+      --ink:        #0A1128; /* Changed to an aesthetic dark navy */
+      --ink-light:  #1A2542; /* Adjusted to match the new dark blue */
+      --stone:      #78716C;
+      --warm:       #FDF8F6;
+      --white:      #FFFFFF;
+      --border:     #EDE9E8;
+      --card:       #FFFFFF;
+      --gold:       #F59E0B;
+      --nav-h:      64px;
+      --r:          12px;
+      --r-lg:       20px;
+      --shadow:     0 2px 12px rgba(26,10,13,.08);
+      --shadow-lg:  0 8px 40px rgba(26,10,13,.14);
+      --font-d:     'DM Serif Display', Georgia, serif;
+      --font-s:     'DM Sans', system-ui, sans-serif;
+      --font-m:     'JetBrains Mono', 'Courier New', monospace;
+    }
+
+    /* ── RESET ─────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: var(--nav-h); }
+    body { font-family: var(--font-s); background: var(--warm); color: var(--ink); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAV ───────────────────────────────────── */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,17,40,.97);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      height: var(--nav-h);
+      display: flex; align-items: center;
+      padding: 0 clamp(1rem, 5vw, 3rem);
+      border-bottom: 1px solid rgba(229,36,59,.2);
+    }
+    .nav__brand {
+      font-family: var(--font-m);
+      font-size: .8rem;
+      color: var(--red);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .nav__brand span { color: rgba(255,255,255,.4); margin: 0 .35em; }
+    .nav__links {
+      display: flex; gap: clamp(.75rem, 2vw, 2rem);
+      list-style: none;
+      margin-left: auto;
+    }
+    .nav__links a {
+      font-size: .85rem;
+      font-weight: 500;
+      color: rgba(255,255,255,.65);
+      letter-spacing: .02em;
+      transition: color .2s;
+      white-space: nowrap;
+    }
+    .nav__links a:hover { color: var(--red); }
+    .nav__hamburger {
+      display: none;
+      flex-direction: column; gap: 5px;
+      cursor: pointer; margin-left: auto;
+      background: none; border: none; padding: 4px;
+    }
+    .nav__hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: rgba(255,255,255,.7);
+      transition: transform .25s, opacity .25s;
+    }
+
+    /* ── HERO ──────────────────────────────────── */
+    .hero {
+      background: var(--ink);
+      padding: clamp(5rem, 12vw, 9rem) clamp(1.5rem, 5vw, 4rem) clamp(4rem, 8vw, 7rem);
+      position: relative; overflow: hidden;
+    }
+    .hero__pulse {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 120px; pointer-events: none;
+    }
+    
+    /* New Layout for Hero Content to accommodate Profile Photo */
+    .hero__content { 
+      position: relative; 
+      z-index: 1; 
+      max-width: 1000px; 
+      display: flex; 
+      flex-direction: column-reverse; 
+      gap: 3rem; 
+      align-items: flex-start;
+    }
+    @media (min-width: 800px) {
+      .hero__content {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+    .hero__text-col { flex: 1; }
+    .hero__img-col { flex-shrink: 0; }
+    .hero__img {
+      width: 160px; 
+      height: 160px; 
+      border-radius: 50%; 
+      object-fit: cover; 
+      border: 3px solid var(--red);
+      box-shadow: 0 8px 30px rgba(229,36,59,.25);
+    }
+    @media (min-width: 800px) {
+      .hero__img { width: 240px; height: 240px; }
+    }
+
+    .hero__sdg {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--red-dim);
+      border: 1px solid var(--red-glow);
+      border-radius: 999px;
+      padding: .35rem .9rem;
+      font-family: var(--font-m);
+      font-size: .72rem;
+      color: var(--red);
+      letter-spacing: .06em;
+      margin-bottom: 2rem;
+    }
+    .hero__sdg::before {
+      content: ''; width: 6px; height: 6px;
+      border-radius: 50%; background: var(--red);
+      animation: pulse-dot 2s ease infinite;
+    }
+    @keyframes pulse-dot {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:.5; transform:scale(.7); }
+    }
+    .hero__name {
+      font-family: var(--font-d);
+      font-size: clamp(2.6rem, 7vw, 5.5rem);
+      color: var(--white);
+      line-height: 1.05;
+      margin-bottom: .75rem;
+      letter-spacing: -.01em;
+    }
+    .hero__name em { color: var(--red); font-style: normal; }
+    .hero__subtitle {
+      font-size: clamp(.95rem, 1.8vw, 1.15rem);
+      color: rgba(255,255,255,.55);
+      max-width: 580px;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+    .hero__meta {
+      display: flex; flex-wrap: wrap; gap: 1.25rem;
+      font-family: var(--font-m);
+      font-size: .75rem;
+      color: rgba(255,255,255,.35);
+      letter-spacing: .04em;
+    }
+    .hero__meta strong { color: rgba(255,255,255,.6); font-weight: 400; }
+
+    /* ── SECTION SHELL ─────────────────────────── */
+    .section { padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 4rem); }
+    .section--alt { background: var(--white); }
+    .section--dark { background: var(--ink); }
+    .section__header { margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+    .section__eyebrow {
+      font-family: var(--font-m);
+      font-size: .72rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: .6rem;
+    }
+    .section__title {
+      font-family: var(--font-d);
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 1.1;
+      color: var(--ink);
+      letter-spacing: -.01em;
+    }
+    .section--dark .section__title { color: var(--white); }
+    .section__desc {
+      margin-top: .75rem;
+      font-size: 1rem;
+      color: var(--stone);
+      max-width: 600px;
+      line-height: 1.7;
+    }
+    .section--dark .section__desc { color: rgba(255,255,255,.5); }
+
+    /* ── GRID ──────────────────────────────────── */
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 1.5rem; }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 480px), 1fr)); gap: 2rem; }
+
+    /* ── LAB CARD ──────────────────────────────── */
+    .lab-card {
+      background: var(--card);
+      border-radius: var(--r-lg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      box-shadow: var(--shadow);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .lab-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .lab-card__video-wrap {
+      position: relative; padding-top: 56.25%; background: #111;
+    }
+    .lab-card__video-wrap iframe {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; border: 0;
+    }
+    .lab-card__body { padding: 1.4rem 1.5rem 1.6rem; flex: 1; display: flex; flex-direction: column; gap: .75rem; }
+    .lab-card__badge {
+      display: inline-block;
+      font-family: var(--font-m);
+      font-size: .68rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      background: var(--red-dim);
+      color: var(--red);
+      border-radius: 999px;
+      padding: .25rem .75rem;
+      width: fit-content;
+    }
+    .lab-card__title {
+      font-family: var(--font-d);
+      font-size: 1.25rem;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+    .lab-card__desc { font-size: .9rem; color: var(--stone); line-height: 1.6; }
+    .lab-card__reflection {
+      margin-top: auto;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-size: .85rem;
+      color: var(--ink-light);
+      line-height: 1.65;
+    }
+    .lab-card__reflection strong {
+      display: block;
+      font-size: .7rem;
+      font-family: var(--font-m);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: .4rem;
+    }
+
+    /* ── PROJECT CARD ──────────────────────────── */
+    .project-card {
+      background: var(--card);
+      border-radius: var(--r-lg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .project-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+    .project-card__video-wrap {
+      position: relative; padding-top: 56.25%; background: #111;
+    }
+    .project-card__video-wrap iframe {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; border: 0;
+    }
+    .project-card__body { padding: 1.75rem 1.75rem 2rem; }
+    .project-card__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; }
+    .project-card__badge {
+      font-family: var(--font-m);
+      font-size: .68rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      background: var(--ink);
+      color: rgba(255,255,255,.7);
+      border-radius: 999px;
+      padding: .3rem .85rem;
+      white-space: nowrap;
+    }
+    .project-card__title {
+      font-family: var(--font-d);
+      font-size: 1.65rem;
+      color: var(--ink);
+      line-height: 1.15;
+      margin-bottom: .5rem;
+    }
+    .project-card__problem-label {
+      font-family: var(--font-m);
+      font-size: .7rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: .35rem;
+    }
+    .project-card__problem { font-size: .95rem; color: var(--ink-light); line-height: 1.65; margin-bottom: 1.25rem; }
+    .project-card__lessons {
+      background: var(--warm);
+      border-radius: var(--r);
+      padding: 1rem 1.2rem;
+      font-size: .875rem;
+      color: var(--ink-light);
+      line-height: 1.65;
+      margin-bottom: 1.5rem;
+      border-left: 3px solid var(--red);
+    }
+    .project-card__lessons strong {
+      display: block;
+      font-family: var(--font-m);
+      font-size: .68rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: .4rem;
+    }
+    .project-card__actions { display: flex; gap: .75rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      font-family: var(--font-s);
+      font-size: .875rem;
+      font-weight: 600;
+      padding: .65rem 1.3rem;
+      border-radius: var(--r);
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s, background .2s;
+      white-space: nowrap;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn--primary {
+      background: var(--ink);
+      color: var(--white);
+      box-shadow: 0 2px 8px rgba(26,10,13,.25);
+    }
+    .btn--primary:hover { background: var(--red-dark); box-shadow: 0 4px 16px rgba(229,36,59,.35); }
+    .btn--ghost {
+      background: transparent;
+      color: var(--ink);
+      border: 1.5px solid var(--border);
+    }
+    .btn--ghost:hover { border-color: var(--red); color: var(--red); }
+
+    /* ── REFLECTION SECTION ────────────────────── */
+    .reflection-card {
+      background: var(--red);
+      border-radius: var(--r-lg);
+      padding: clamp(2rem, 5vw, 3.5rem);
+      position: relative;
+      overflow: hidden;
+    }
+    .reflection-card::before {
+      content: '"';
+      position: absolute;
+      top: -1rem; left: 1.5rem;
+      font-family: var(--font-d);
+      font-size: 12rem;
+      color: rgba(255,255,255,.08);
+      line-height: 1;
+      pointer-events: none;
+    }
+    .reflection-card__text {
+      font-family: var(--font-d);
+      font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+      color: var(--white);
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+    .reflection-card__author {
+      margin-top: 1.5rem;
+      font-family: var(--font-m);
+      font-size: .75rem;
+      color: rgba(255,255,255,.65);
+      letter-spacing: .06em;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── SKILLS ────────────────────────────────── */
+    .skills-grid { display: flex; flex-wrap: wrap; gap: .75rem; }
+    .skill-pill {
+      font-family: var(--font-m);
+      font-size: .82rem;
+      padding: .55rem 1.1rem;
+      border-radius: 999px;
+      font-weight: 500;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .skill-pill:hover { transform: translateY(-2px); }
+    .skill-pill--core { background: var(--ink); color: var(--white); }
+    .skill-pill--secondary { background: var(--red-dim); color: var(--red-dark); border: 1px solid var(--red-glow); }
+    .skill-pill--tool { background: var(--border); color: var(--ink-light); }
+
+    /* ── RESOURCES ─────────────────────────────── */
+    .resource-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 1.5rem 1.75rem;
+      display: flex; align-items: flex-start; gap: 1rem;
+    }
+    .resource-card__icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: var(--red-dim);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .resource-card__icon svg { width: 20px; height: 20px; }
+    .resource-card__title { font-weight: 600; font-size: .95rem; margin-bottom: .3rem; }
+    .resource-card__desc { font-size: .85rem; color: var(--stone); line-height: 1.55; }
+
+    /* ── AI NOTE ───────────────────────────────── */
+    .ai-note {
+      margin-top: 2rem;
+      padding: 1rem 1.25rem;
+      background: rgba(245,158,11,.08);
+      border: 1px solid rgba(245,158,11,.25);
+      border-radius: var(--r);
+      font-size: .85rem;
+      color: var(--ink-light);
+      line-height: 1.6;
+    }
+    .ai-note strong { color: #92400E; }
+
+    /* ── JOURNEY TIMELINE ──────────────────────── */
+    .timeline {
+      display: flex; flex-wrap: wrap; gap: 0;
+      position: relative;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 19px; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--red), rgba(229,36,59,.1));
+    }
+    .timeline-item {
+      display: flex; align-items: flex-start; gap: 1.25rem;
+      width: 100%;
+      padding: 0 0 2.5rem 0;
+    }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-dot {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--ink);
+      border: 3px solid var(--red);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-family: var(--font-m);
+      font-size: .7rem;
+      color: var(--red);
+      font-weight: 500;
+      position: relative; z-index: 1;
+    }
+    .timeline-content { flex: 1; padding-top: .5rem; }
+    .timeline-content h3 {
+      font-family: var(--font-d);
+      font-size: 1.1rem;
+      color: var(--ink);
+      margin-bottom: .35rem;
+    }
+    .timeline-content p { font-size: .9rem; color: var(--stone); line-height: 1.6; }
+
+    /* ── FOOTER ────────────────────────────────── */
+    .footer {
+      background: var(--ink);
+      padding: 3rem clamp(1.5rem, 5vw, 4rem);
+      display: flex; flex-wrap: wrap;
+      align-items: center; justify-content: space-between;
+      gap: 1.25rem;
+      border-top: 1px solid rgba(229,36,59,.2);
+    }
+    .footer__left {}
+    .footer__name {
+      font-family: var(--font-d);
+      font-size: 1.25rem;
+      color: var(--white);
+      margin-bottom: .25rem;
+    }
+    .footer__meta {
+      font-family: var(--font-m);
+      font-size: .72rem;
+      color: rgba(255,255,255,.35);
+      letter-spacing: .05em;
+      line-height: 1.7;
+    }
+    .footer__right {
+      font-family: var(--font-m);
+      font-size: .72rem;
+      color: rgba(255,255,255,.2);
+      text-align: right;
+      letter-spacing: .04em;
+    }
+    .footer__sdg {
+      display: flex; align-items: center; gap: .6rem;
+      background: var(--red-dim);
+      border: 1px solid var(--red-glow);
+      border-radius: 999px;
+      padding: .5rem 1rem;
+    }
+    .footer__sdg-color {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--red);
+    }
+    .footer__sdg-text {
+      font-family: var(--font-m);
+      font-size: .7rem;
+      color: var(--red);
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    /* ── MOBILE NAV ────────────────────────────── */
+    @media (max-width: 680px) {
+      .nav__links { display: none; flex-direction: column; gap: 0; }
+      .nav__links.open {
+        display: flex;
+        position: fixed; top: var(--nav-h); left: 0; right: 0;
+        background: rgba(26,10,13,.98);
+        padding: 1rem 0 2rem;
+        border-bottom: 1px solid rgba(229,36,59,.2);
+      }
+      .nav__links.open a {
+        display: block;
+        padding: .75rem 1.75rem;
+        font-size: 1rem;
+      }
+      .nav__hamburger { display: flex; }
+      .nav__brand { font-size: .7rem; }
+    }
+
+    /* ── MISC ──────────────────────────────────── */
+    .divider {
+      border: none;
+      height: 1px;
+      background: var(--border);
+      margin: 0;
+    }
+    .max-w { max-width: 1100px; margin: 0 auto; }
+    .sdg-banner {
+      background: linear-gradient(135deg, var(--red) 0%, #9B1A28 100%);
+      padding: 1.25rem clamp(1.5rem, 5vw, 4rem);
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    }
+    .sdg-banner__icon { font-size: 1.75rem; }
+    .sdg-banner__text {
+      flex: 1;
+      font-size: .9rem;
+      color: rgba(255,255,255,.9);
+      line-height: 1.55;
+    }
+    .sdg-banner__text strong { color: var(--white); }
+    .video-label {
+      font-family: var(--font-m);
+      font-size: .68rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-bottom: .4rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVIGATION ──────────────────────────────── -->
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav__brand">ZUL RIZA<span>/</span>A212679</div>
+  <ul class="nav__links" id="navLinks">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#labs">Labs</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#reflection">Reflection</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#resources">Resources</a></li>
+  </ul>
+  <button class="nav__hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ── SDG BANNER ─────────────────────────────── -->
+<div class="sdg-banner" role="complementary" aria-label="SDG commitment">
+  <div class="sdg-banner__icon" aria-hidden="true">🎯</div>
+  <p class="sdg-banner__text">
+    <strong>SDG 1 — No Poverty:</strong>
+    Providing an accessible platform for local employment empowers individuals to secure stable incomes and lift themselves out of financial hardship.
+  </p>
+</div>
+
+<!-- ── HERO ───────────────────────────────────── -->
+<header class="hero" id="home">
+
+  <!-- Signature element: CareerPulse EKG line -->
+  <svg class="hero__pulse" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true">
+    <path
+      d="M0,60 L200,60 L230,20 L260,100 L290,10 L320,110 L350,60 L600,60 L630,30 L660,90 L690,15 L720,105 L750,60 L1000,60 L1030,35 L1060,85 L1090,20 L1120,100 L1150,60 L1440,60"
+      fill="none"
+      stroke="rgba(229,36,59,0.18)"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M0,60 L200,60 L230,20 L260,100 L290,10 L320,110 L350,60 L600,60"
+      fill="none"
+      stroke="rgba(229,36,59,0.55)"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <animate attributeName="stroke-dasharray" from="0,9999" to="9999,0" dur="3s" fill="freeze" begin="0.5s"/>
+    </path>
+  </svg>
+
+  <div class="hero__content max-w">
+    <div class="hero__text-col">
+      <div class="hero__sdg">SDG 1 — No Poverty</div>
+      <h1 class="hero__name">
+        Zul Riza<br>Bin Idris
+      </h1>
+      <p class="hero__subtitle">
+        I am a student at Universiti Kebangsaan Malaysia (UKM) passionate about computer science,
+        software development, and artificial intelligence. This e-Portfolio showcases my mobile
+        programming journey, highlighting the skills and knowledge I've gained through hands-on
+        labs and the development of my application.
+      </p>
+      <div class="hero__meta">
+        <span><strong>Matric</strong> A212679</span>
+        <span><strong>Programme</strong> Information Technology</span>
+        <span><strong>Instructor</strong> Dr. Nazatul Aini Binti Abd Majid</span>
+      </div>
+    </div>
+    
+    <div class="hero__img-col">
+      <img src="profile-photo.jpg" alt="Zul Riza Profile Photo" class="hero__img">
+    </div>
+  </div>
+</header>
+
+<!-- ── LABS ───────────────────────────────────── -->
+<section class="section" id="labs" aria-labelledby="labs-title">
+  <div class="max-w">
+    <header class="section__header">
+      <p class="section__eyebrow">Hands-on Learning</p>
+      <h2 class="section__title" id="labs-title">Lab Sessions</h2>
+      <p class="section__desc">Five progressive labs building from basic UI to full local database persistence using Jetpack Compose and the Android ecosystem.</p>
+    </header>
+
+    <div class="grid-3">
+
+      <!-- Lab 1 -->
+      <article class="lab-card">
+        <div class="lab-card__video-wrap">
+          <iframe
+            src="https://www.youtube.com/embed/ClV4nQ-4cLE"
+            title="Lab 1 — UI Fundamentals demo video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        </div>
+        <div class="lab-card__body">
+          <span class="lab-card__badge">Lab 01</span>
+          <h3 class="lab-card__title">UI Fundamentals</h3>
+          <p class="lab-card__desc">Building basic UI elements using Jetpack Compose, exploring modifiers and layout composables to structure simple screens.</p>
+          <div class="lab-card__reflection">
+            <strong>Reflection</strong>
+            I learned the fundamentals of Jetpack Compose by building basic UI elements.
+            Understanding how modifiers and layouts work was key to structuring simple screens.
+          </div>
+        </div>
+      </article>
+
+      <!-- Lab 2 -->
+      <article class="lab-card">
+        <div class="lab-card__video-wrap">
+          <iframe
+            src="https://www.youtube.com/embed/AvaenOy8SOA"
+            title="Lab 2 — Interaction and State Management demo video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        </div>
+        <div class="lab-card__body">
+          <span class="lab-card__badge">Lab 02</span>
+          <h3 class="lab-card__title">Interaction & State</h3>
+          <p class="lab-card__desc">Exploring state management and user interactions to create dynamic, input-responsive interfaces in Compose.</p>
+          <div class="lab-card__reflection">
+            <strong>Reflection</strong>
+            I explored state management and user interactions. This lab taught me how to make
+            the UI dynamic and responsive to user inputs.
+          </div>
+        </div>
+      </article>
+
+      <!-- Lab 3 -->
+      <article class="lab-card">
+        <div class="lab-card__video-wrap">
+          <iframe
+            src="https://www.youtube.com/embed/yy9Rl6OtXo0"
+            title="Lab 3 — Material Design demo video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        </div>
+        <div class="lab-card__body">
+          <span class="lab-card__badge">Lab 03</span>
+          <h3 class="lab-card__title">Material Design</h3>
+          <p class="lab-card__desc">Applying Material Design 3 guidelines and standard components to create polished, professional-looking Android UIs.</p>
+          <div class="lab-card__reflection">
+            <strong>Reflection</strong>
+            I applied Material Design guidelines to improve the app's aesthetics and user experience.
+            Utilizing standard components helped create a polished and professional look.
+          </div>
+        </div>
+      </article>
+
+      <!-- Lab 4 -->
+      <article class="lab-card">
+        <div class="lab-card__video-wrap">
+          <iframe
+            src="https://www.youtube.com/embed/YlYZskClMckk"
+            title="Lab 4 — Navigation demo video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        </div>
+        <div class="lab-card__body">
+          <span class="lab-card__badge">Lab 04</span>
+          <h3 class="lab-card__title">Navigation</h3>
+          <p class="lab-card__desc">Implementing multi-screen navigation using Jetpack Compose Navigation, including a bottom navigation bar for improved UX flow.</p>
+          <div class="lab-card__reflection">
+            <strong>Reflection</strong>
+            I implemented multi-screen navigation using Jetpack Compose Navigation.
+            Learning to set up a bottom navigation bar significantly improved the app's structure and flow.
+          </div>
+        </div>
+      </article>
+
+      <!-- Lab 5 -->
+      <article class="lab-card">
+        <div class="lab-card__video-wrap">
+          <iframe
+            src="https://www.youtube.com/embed/u-xiovgWCLA"
+            title="Lab 5 — Room Database demo video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        </div>
+        <div class="lab-card__body">
+          <span class="lab-card__badge">Lab 05</span>
+          <h3 class="lab-card__title">Room Database</h3>
+          <p class="lab-card__desc">Integrating the Room database for local data persistence, with ViewModel and dependency injection for clean architecture.</p>
+          <div class="lab-card__reflection">
+            <strong>Reflection</strong>
+            I integrated the Room database for local data persistence. This was a crucial step in
+            understanding how to save, retrieve, and manage data efficiently on the device using
+            ViewModels and dependency injection.
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ── PROJECTS ────────────────────────────────── -->
+<section class="section section--alt" id="projects" aria-labelledby="projects-title">
+  <div class="max-w">
+    <header class="section__header">
+      <p class="section__eyebrow">Applied Development</p>
+      <h2 class="section__title" id="projects-title">CareerPulse Projects</h2>
+      <p class="section__desc">Two iterative phases of a real-world job-seeker platform built for SDG 1, going from core features to full API, sensor, and cloud integration.</p>
+    </header>
+
+    <div class="grid-2">
+
+      <!-- Project 1 -->
+      <article class="project-card">
+        <div class="project-card__video-wrap">
+          <iframe
+            src="https://www.youtube.com/embed/UKkfFrmio2g"
+            title="CareerPulse Project 1 — Video Software Review demo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        </div>
+        <div class="project-card__body">
+          <div class="project-card__header">
+            <div>
+              <p class="project-card__title">CareerPulse</p>
+            </div>
+            <span class="project-card__badge">Project 1</span>
+          </div>
+
+          <p class="project-card__problem-label">Problem Statement</p>
+          <p class="project-card__problem">
+            Local job seekers often lack an accessible, centralized mobile platform to find and
+            apply for relevant work opportunities in their area.
+          </p>
+
+          <div class="project-card__lessons">
+            <strong>Lessons Learned</strong>
+            Building the core of CareerPulse helped me consolidate my knowledge of UI design,
+            navigation, and state management. I learned the importance of planning a cohesive
+            app architecture before coding.
+          </div>
+
+          <div class="project-card__actions">
+            <a
+              href="https://github.com/ZulRizaIdris/A212679_ZulRizaIdris_DrNazatul_Project1.git"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn--primary"
+              aria-label="View CareerPulse Project 1 on GitHub"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+              View on GitHub
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Project 2 -->
+      <article class="project-card">
+        <div class="project-card__video-wrap">
+          <iframe
+            src="https://www.youtube.com/embed/L6CM2np8cu0?si=haZipzkct9G4JVb6"
+            title="CareerPulse Project 2 — Video Software Review demo with GPS, API and Cloud"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+        </div>
+        <div class="project-card__body">
+          <div class="project-card__header">
+            <div>
+              <p class="project-card__title">CareerPulse</p>
+            </div>
+            <span class="project-card__badge">Project 2</span>
+          </div>
+
+          <p class="project-card__problem-label">Problem Statement</p>
+          <p class="project-card__problem">
+            To be truly effective, job seekers need a platform that offers location-based job
+            discovery and reliable data synchronization to manage applications.
+          </p>
+
+          <div class="project-card__lessons">
+            <strong>Lessons Learned</strong>
+            Integrating a GPS-based job locator and expanding the database architecture significantly
+            increased the project's complexity. I gained valuable experience in handling location
+            permissions and managing more advanced data flows.
+          </div>
+
+          <div class="project-card__actions">
+            <a
+              href="https://github.com/ZulRizaIdris/A212679_ZulRizaIdris_DrNazatul_Project2.git"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn--primary"
+              aria-label="View CareerPulse Project 2 on GitHub"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+              View on GitHub
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ── REFLECTION ─────────────────────────────── -->
+<section class="section" id="reflection" aria-labelledby="reflection-title">
+  <div class="max-w">
+    <header class="section__header">
+      <p class="section__eyebrow">Learning Journey</p>
+      <h2 class="section__title" id="reflection-title">Reflection</h2>
+    </header>
+
+    <div class="reflection-card" role="blockquote">
+      <p class="reflection-card__text">
+        My journey from the initial UI labs to the advanced stages of the CareerPulse project
+        has been incredibly fulfilling. I transitioned from creating static screens to developing
+        a robust, multi-screen application with complex features like database persistence and
+        navigation. This experience has deepened my understanding of mobile development best
+        practices and problem-solving.
+      </p>
+      <p class="reflection-card__author">— Zul Riza Bin Idris, A212679</p>
+    </div>
+
+    <div style="margin-top: 3rem;">
+      <h3 style="font-family: var(--font-d); font-size: 1.4rem; margin-bottom: 1.75rem; color: var(--ink);">Lab-to-Project Journey</h3>
+      <div class="timeline" role="list">
+        <div class="timeline-item" role="listitem">
+          <div class="timeline-dot" aria-hidden="true">L1</div>
+          <div class="timeline-content">
+            <h3>Lab 1 — UI Fundamentals</h3>
+            <p>First steps in Jetpack Compose: understanding composable functions, modifiers, and basic layout primitives.</p>
+          </div>
+        </div>
+        <div class="timeline-item" role="listitem">
+          <div class="timeline-dot" aria-hidden="true">L2</div>
+          <div class="timeline-content">
+            <h3>Lab 2 — State & Interaction</h3>
+            <p>Mastering state hoisting and event handlers to bring the UI to life with real user-driven changes.</p>
+          </div>
+        </div>
+        <div class="timeline-item" role="listitem">
+          <div class="timeline-dot" aria-hidden="true">L3</div>
+          <div class="timeline-content">
+            <h3>Lab 3 — Material Design</h3>
+            <p>Applying the Material 3 design system for consistency, theming, and professional visual polish.</p>
+          </div>
+        </div>
+        <div class="timeline-item" role="listitem">
+          <div class="timeline-dot" aria-hidden="true">L4</div>
+          <div class="timeline-content">
+            <h3>Lab 4 — Navigation → Project 1</h3>
+            <p>Building a multi-screen app with Compose Navigation, then consolidating it all in CareerPulse Phase 1.</p>
+          </div>
+        </div>
+        <div class="timeline-item" role="listitem">
+          <div class="timeline-dot" aria-hidden="true">L5</div>
+          <div class="timeline-content">
+            <h3>Lab 5 — Room Database → Project 2</h3>
+            <p>Local persistence with Room + ViewModel, then scaling CareerPulse to include GPS, external APIs, and cloud sync.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ── SKILLS ─────────────────────────────────── -->
+<section class="section section--alt" id="skills" aria-labelledby="skills-title">
+  <div class="max-w">
+    <header class="section__header">
+      <p class="section__eyebrow">Tech Stack</p>
+      <h2 class="section__title" id="skills-title">Skills &amp; Technologies</h2>
+      <p class="section__desc">Languages, frameworks, and tools mastered across five labs and two project phases.</p>
+    </header>
+
+    <div style="display: flex; flex-direction: column; gap: 1.75rem;">
+      <div>
+        <p style="font-family: var(--font-m); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--stone); margin-bottom: .85rem;">Core Languages &amp; Frameworks</p>
+        <div class="skills-grid">
+          <span class="skill-pill skill-pill--core">Kotlin</span>
+          <span class="skill-pill skill-pill--core">Jetpack Compose</span>
+          <span class="skill-pill skill-pill--core">Android SDK</span>
+          <span class="skill-pill skill-pill--core">Material Design 3</span>
+        </div>
+      </div>
+      <div>
+        <p style="font-family: var(--font-m); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--stone); margin-bottom: .85rem;">Architecture &amp; Persistence</p>
+        <div class="skills-grid">
+          <span class="skill-pill skill-pill--secondary">Room Database</span>
+          <span class="skill-pill skill-pill--secondary">ViewModel</span>
+          <span class="skill-pill skill-pill--secondary">Navigation Compose</span>
+          <span class="skill-pill skill-pill--secondary">Dependency Injection</span>
+        </div>
+      </div>
+      <div>
+        <p style="font-family: var(--font-m); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--stone); margin-bottom: .85rem;">Advanced Features</p>
+        <div class="skills-grid">
+          <span class="skill-pill skill-pill--tool">Location Services (GPS)</span>
+          <span class="skill-pill skill-pill--tool">REST API Integration</span>
+          <span class="skill-pill skill-pill--tool">Cloud Sync</span>
+          <span class="skill-pill skill-pill--tool">Sensors</span>
+          <span class="skill-pill skill-pill--tool">GitHub</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- ── RESOURCES ───────────────────────────────── -->
+<section class="section" id="resources" aria-labelledby="resources-title">
+  <div class="max-w">
+    <header class="section__header">
+      <p class="section__eyebrow">References &amp; Tools</p>
+      <h2 class="section__title" id="resources-title">Resources</h2>
+      <p class="section__desc">The documentation, guidelines, and tools that supported the development process.</p>
+    </header>
+
+    <div class="grid-2" style="gap: 1rem;">
+      <div class="resource-card">
+        <div class="resource-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+          </svg>
+        </div>
+        <div>
+          <p class="resource-card__title">Android Developers Documentation</p>
+          <p class="resource-card__desc">Official reference for Jetpack Compose, Room, Navigation, ViewModel, and the full Android architecture component suite.</p>
+        </div>
+      </div>
+      <div class="resource-card">
+        <div class="resource-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>
+          </svg>
+        </div>
+        <div>
+          <p class="resource-card__title">Material Design Guidelines</p>
+          <p class="resource-card__desc">Google's design system for building consistent, accessible, and visually coherent Android UIs with Material 3 components.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-note" role="note">
+      <strong>🤖 AI Tool Acknowledgment:</strong>
+      AI tools including Gemini and Claude were used to assist with debugging complex Compose layouts
+      and database queries during the development process. All architectural decisions and final
+      implementations remain the work of the author.
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────── -->
+<footer class="footer" role="contentinfo">
+  <div class="footer__left">
+    <p class="footer__name">Zul Riza Bin Idris</p>
+    <p class="footer__meta">
+      A212679 &nbsp;·&nbsp; Information Technology<br>
+      Universiti Kebangsaan Malaysia (UKM)<br>
+      Dr. Nazatul Aini Binti Abd Majid
+    </p>
+  </div>
+  <div class="footer__sdg" aria-label="SDG 1 No Poverty commitment">
+    <div class="footer__sdg-color" aria-hidden="true"></div>
+    <span class="footer__sdg-text">SDG 1 — No Poverty</span>
+  </div>
+  <div class="footer__right">
+    <p>© 2025 Zul Riza Bin Idris</p>
+    <p style="margin-top: .3rem;">Mobile Programming e-Portfolio</p>
+  </div>
+</footer>
+
+<script>
+  /* ── Hamburger toggle ── */
+  const hamburger = document.getElementById('hamburger');
+  const navLinks  = document.getElementById('navLinks');
+
+  hamburger.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', isOpen);
+    const spans = hamburger.querySelectorAll('span');
+    if (isOpen) {
+      spans[0].style.transform = 'translateY(7px) rotate(45deg)';
+      spans[1].style.opacity   = '0';
+      spans[2].style.transform = 'translateY(-7px) rotate(-45deg)';
+    } else {
+      spans[0].style.transform = '';
+      spans[1].style.opacity   = '';
+      spans[2].style.transform = '';
+    }
+  });
+
+  /* Close menu on nav link click */
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      const spans = hamburger.querySelectorAll('span');
+      spans[0].style.transform = '';
+      spans[1].style.opacity   = '';
+      spans[2].style.transform = '';
+    });
+  });
+
+  /* ── Active nav highlight on scroll ── */
+  const sections = document.querySelectorAll('section[id], header[id]');
+  const navAnchors = document.querySelectorAll('.nav__links a');
+
+  function onScroll() {
+    let current = '';
+    sections.forEach(sec => {
+      const top = sec.getBoundingClientRect().top;
+      if (top <= 80) current = sec.id;
+    });
+    navAnchors.forEach(a => {
+      a.style.color = '';
+      if (a.getAttribute('href') === '#' + current) {
+        a.style.color = 'var(--red)';
+      }
+    });
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ── Scroll-reveal ── */
+  if ('IntersectionObserver' in window) {
+    const style = document.createElement('style');
+    style.textContent = `
+      .reveal { opacity: 0; transform: translateY(24px); transition: opacity .55s ease, transform .55s ease; }
+      .reveal.visible { opacity: 1; transform: none; }
+    `;
+    document.head.appendChild(style);
+
+    const revealEls = document.querySelectorAll(
+      '.lab-card, .project-card, .resource-card, .timeline-item, .skill-pill, .reflection-card'
+    );
+    revealEls.forEach((el, i) => {
+      el.classList.add('reveal');
+      el.style.transitionDelay = (i % 4) * 80 + 'ms';
+    });
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+
+    revealEls.forEach(el => io.observe(el));
+  }
+</script>
+</body>
+</html>
